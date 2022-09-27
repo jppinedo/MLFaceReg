@@ -1,0 +1,124 @@
+<template>
+  <div class="page" data-name="worker">
+   <div class="navbar">
+      <div class="navbar-bg"></div>
+      <div class="navbar-inner sliding">
+        <div class="left">
+          <a href="#" class="link back">
+            <i class="icon icon-back"></i>
+            <span class="if-not-md">Back</span>
+          </a>
+        </div>
+        <div class="title sliding">Perfil</div>
+      </div>
+    </div>
+
+    <div class="page-content" id="worker-page">
+
+        <div class="margin-top">
+          <div class="menu">
+            <div class="menu-inner justify-content-end">
+              <div class="menu-item menu-item-dropdown">
+                <div class="menu-item-content">
+                  Opciones <i class="icon material-icons margin-left color-blue">settings</i>
+                </div>
+                <div class="menu-dropdown menu-dropdown-right">
+                  <div class="menu-dropdown-content elevation-3">
+                    <a href="#" class="menu-dropdown-link menu-close color-gray">
+                      Sincronizar trabajador
+                      <i class="icon material-icons margin-left color-blue">sync_icon</i>
+                    </a>
+                    <a href="#" class="menu-dropdown-link menu-close color-gray">
+                      Actualizar registro facial
+                      <i class="icon material-icons margin-left color-blue">face_icon</i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      <div class="profile-avatar-block">
+        <div class="list media-list no-hairlines no-hairlines-between">
+          <div class="item-content">
+            <div class="item-media">
+              <img src='${currentWorker.foto ? currentWorker.foto : "assets/avatar.png"}' onerror="${(el) => getDefaultAvatar(el)}"/>
+            </div>
+            <div class="item-inner">
+              <div class="item-title worker-name">${currentWorker.nombre.toLowerCase()}</div>
+              <div class="item-subtitle worker-especialidad">${currentWorker.especialidad.toLowerCase()}</div>
+              <div class="item-text">RUT: ${currentWorker.rut}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="list simple-list no-margin">
+        <ul>
+          <li>Contrato: <span class="item-text">${currentWorker.contrato || ""}</span></li>
+          <li>Tipo Costo: <span class="item-text">${currentWorker.tipo_costo || ""}</span></li>
+          <li>Ingreso: 
+            <span class="item-text">
+              <i class="icon material-icons margin-right color-${currentWorker.status ? 'green' : 'orange'}">
+                ${currentWorker.status ? 'arrow_upward' : 'arrow_downward'}
+              </i>
+              ${currentWorker.status ? 'Dentro' : 'Fuera'} del recinto
+            </span>
+          </li>
+          <li>Reg. Facial: 
+            <span class="item-text">
+              <${getFacialStatusHTML} facial="${currentWorker.vector_face}" rut="${currentWorker.rut}"/>
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</template>
+<script>
+  const getFacialStatusHTML = (props, {$h}) => {
+
+    if(props.facial) {
+      return () => $h`
+        <span><i class="icon material-icons color-green margin-right">check_icon</i>Facial disponible</span>`
+    } else {
+      return () => $h`
+      <a href="/newface/${props.rut}">
+        <button class="button button-round border text-normal">
+          <i class="icon material-icons margin-right color-blue">add_circle_outline_icon</i>Crear registro
+        </button>
+      </a>
+      `
+    }
+  }
+
+  
+
+
+  export default (props, { $f7route, $store}) => {
+    const workers = $store.getters.workers;
+    const workerRut = $f7route.params.rut;
+    let currentWorker;
+    workers.value.forEach((worker) => {
+      if (worker.rut === workerRut) {
+        currentWorker = worker;
+      }
+    });
+
+    const getDefaultAvatar = (el) => {
+      var target = el.originalTarget;
+      target.src = 'assets/avatar.png';
+    }
+
+    const getStatusChip = (status) => {
+      return `
+      <div class="chip color-${status ? "blue" : "orange"}">
+      <div class="chip-label">${status ? "Dentro" : "Fuera"}</div>
+      </div>`;
+    }
+
+    return $render;
+  };
+</script>

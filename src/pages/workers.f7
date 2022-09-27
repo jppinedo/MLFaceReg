@@ -1,0 +1,90 @@
+<template>
+  <div class="page" data-name="workers">
+    <!-- Top Navbar -->
+    <div class="navbar">
+      <div class="navbar-bg"></div>
+      <div class="navbar-inner">
+        <div class="subnavbar">
+          <form data-search-container=".virtual-list" data-search-item="li" data-search-in=".item-title"
+            class="searchbar searchbar-init">
+            <div class="searchbar-inner">
+              <div class="searchbar-input-wrap">
+                <input type="search" placeholder="Buscar" />
+                <i class="searchbar-icon"></i>
+                <span class="input-clear-button"></span>
+              </div>
+              <span class="searchbar-disable-button">Cancel</span>
+            </div>
+          </form>
+        </div>
+
+        <div class="left">
+          <a href="#" class="link icon-only panel-open" data-panel="left">
+            <i class="icon f7-icons if-not-md">menu</i>
+            <i class="icon material-icons if-md">menu</i>
+          </a>
+        </div>
+        <div class="title sliding">Trabajadores</div>
+      </div>
+    </div>
+
+    <div class="searchbar-backdrop"></div>
+    <!-- Scrollable page content-->
+    <div class="page-content">
+      <div class="list simple-list searchbar-not-found">
+        <ul>
+          <li>Sin resultados</li>
+        </ul>
+      </div>
+
+      <div class="list virtual-list media-list searchbar-found no-margin" id="worker-list"></div>
+    </div>
+  </div>
+</template>
+<script>
+  export default (props, { $store, $on, $el, $f7 }) => {
+    
+
+    const getDefaultAvatar = (el) => {
+      var target = el.originalTarget;
+      target.setAttribute('src', 'assets/avatar.png');
+    }
+
+    $on('pageInit', () => {
+      const workers = $store.getters.workers.value;
+      const workerlList = $f7.virtualList.create({
+        el: $el.value.find('#worker-list'),
+        items: workers,
+        searchAll: function (query, workers) {
+          var found = [];
+          for (var i = 0; i < workers.length; i++) {
+            var searchName = workers[i].nombre.toLowerCase().indexOf(query.toLowerCase()) >= 0;
+            var searchRut = workers[i].rut.toLowerCase().indexOf(query.toLowerCase()) >= 0;
+            if (searchName || searchRut || query.trim() === '') found.push(i);
+          }
+          return found;
+        },
+        renderItem(worker) {
+          return `
+            <li>
+              <a href="/worker/${worker.rut}/" class="item-link item-content">
+                <div class="item-media">
+                  <img src='${worker.foto ? worker.foto : "assets/avatar.png"}' onerror="" />
+                </div>
+                <div class="item-inner">
+                  <div class="item-title">
+                    <div class="item-header">${worker.rut}</div>
+                    <span class="worker-name">${worker.nombre.toLowerCase()}</span>
+                  </div>
+                  <div class="item-after"></div>
+                </div>
+              </a>
+            </li>`
+        },
+        height: 78,
+      });
+    });
+
+    return $render;
+  }
+</script>

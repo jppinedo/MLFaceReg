@@ -1,0 +1,73 @@
+/* iOS Cordova Tweak */
+.device-cordova.device-ios {
+  height: 100vh;
+}
+:root {
+  --f7-menu-text-color: var(--f7-list-item-text-text-color);
+  --f7-menu-bg-color: rgba(255, 255, 255, 1);
+  --f7-menu-item-pressed-bg-color: #00ff00;
+  --f7-menu-item-dropdown-icon-color:  var(--f7-list-item-text-text-color);
+}
+
+.menu-dropdown-content {
+   border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.menu-item-dropdown .menu-item-content::after {
+  display: none !important;
+}
+.menu-dropdown-content {
+  overflow-x: hidden;
+}
+
+i.icon.margin-right {
+  margin-right: 0.3em !important;
+}
+
+i.icon.margin-left {
+  margin-left: 0.3em !important;
+}
+
+.text-capitalize {
+  text-transform: capitalize !important;
+}
+
+.text-normal {
+  text-transform: unset !important;
+}
+
+.border {
+  border: 1px solid;
+}
+
+.profile-avatar-block > .list {
+  margin: 0 !important;
+}
+
+#worker-list .item-media img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+}
+
+#worker-page .profile-avatar-block img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
+
+.worker-name, .worker-especialidad {
+  text-transform: capitalize;
+}
+
+body.test-red {
+  background-color: #ff0000 !important;
+}
+
+.bg-transparent {
+  background-color: transparent !important;
+}
+
+
+
+/* Your app custom styles here */

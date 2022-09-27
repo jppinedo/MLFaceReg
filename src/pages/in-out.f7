@@ -1,0 +1,32 @@
+<template>
+  <div class="page" data-name="in-out">
+    <!-- Top Navbar -->
+    <div class="navbar">
+      <div class="navbar-bg"></div>
+      <div class="navbar-inner">
+        <div class="left">
+          <a href="#" class="link icon-only panel-open" data-panel="left">
+            <i class="icon f7-icons if-not-md">menu</i>
+            <i class="icon material-icons if-md">menu</i>
+          </a>
+        </div>
+        <div class="title sliding">Inicio</div>
+      </div>
+    </div>
+
+    <!-- Scrollable page content-->
+    <div class="page-content display-flex flex-direction-column justify-content-center">
+      <div class="block text-align-center">
+        <i class="icon material-icons color-blue">keyboard_arrow_up_icon</i>
+        <a class="button button-round button-fill button-large color-blue margin" id="btn-entrar">Entrar</a>
+        <a class="button button-round button-fill button-large color-orange margin" id="btn-salir">Salir</a>
+        <i class="icon material-icons color-orange">keyboard_arrow_down_icon</i>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+export default () => {
+  return $render;
+}
+</script>
