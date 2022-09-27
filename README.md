@@ -1,4 +1,5 @@
 # MLFace
+A Framework7 + Cordova test app.
 
 ## Framework7 CLI Options
 
